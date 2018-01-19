@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WGU Android</string>
+    <string name="action_settings">Settings</string>
+    <string name="WelcomeString">Welcome to the WGU Progress Application!</string>
+    <string name="terms">Terms</string>
+    <string name="title_activity_terms">Terms</string>
+</resources>
