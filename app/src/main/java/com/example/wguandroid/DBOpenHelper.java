@@ -11,17 +11,23 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String TABLE_TERMS = "terms";
     public static final String TERM_ID = "_id";
     public static final String TERM_NAME = "termName";
+    public static final String TERM_START = "termStart";
+    public static final String TERM_END = "termEnd";
     public static final String TERM_CREATED = "termCreated";
     public static final String[] ALL_COLUMNS =
-            {TERM_ID, TERM_NAME, TERM_CREATED};
+            {TERM_ID, TERM_NAME, TERM_START, TERM_END, TERM_CREATED};
+
     //Constants for db name and version
     private static final String DATABASE_NAME = "terms.db";
     private static final int DATABASE_VERSION = 1;
+
     //SQL to create table
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_TERMS + " (" +
                     TERM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     TERM_NAME + " TEXT, " +
+                    TERM_START + " TEXT, " +
+                    TERM_END + " TEXT, " +
                     TERM_CREATED + " TEXT default CURRENT_TIMESTAMP" +
                     ")";
 

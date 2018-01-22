@@ -32,14 +32,14 @@ public class TermsProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        DBOpenHelper helper = new helper(getContext());
+        DBOpenHelper helper = new DBOpenHelper(getContext());
         database = helper.getWritableDatabase();
         return true;
     }
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         return database.query(DBOpenHelper.TABLE_TERMS, DBOpenHelper.ALL_COLUMNS, selection, null, null, null,
                 DBOpenHelper.TERM_CREATED + " DESC");
     }
@@ -52,18 +52,18 @@ public class TermsProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         long id = database.insert(DBOpenHelper.TABLE_TERMS, null, values);
-        return null;
+        return Uri.parse(BASE_PATH + "/" + id);
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return database.delete(DBOpenHelper.TABLE_TERMS, selection, selectionArgs);
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+        return database.update(DBOpenHelper.TABLE_TERMS, values, selection, selectionArgs);
     }
 }

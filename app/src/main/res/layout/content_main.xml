@@ -6,27 +6,27 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.wguandroid.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    tools:ignore="ExtraText">
 
     <TextView
         android:id="@+id/WelcomeText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="474dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
         android:text="@string/WelcomeString"
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/Terms"
+        android:id="@+id/TermsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/WelcomeText"
+        android:layout_below="@+id/WelcomeText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="140dp"
-        android:gravity="center"
-        android:paddingHorizontal="50dp"
+        android:layout_marginTop="5dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
         android:text="@string/terms"
         android:textSize="25sp" />
 </RelativeLayout>
