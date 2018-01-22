@@ -26,10 +26,12 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class Terms extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
 
     public CursorAdapter cursorAdapter;
 
@@ -40,10 +42,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String[] from = {DBOpenHelper.TERM_NAME};
-        int[] to = {android.R.id.text1};
-        cursorAdapter = new SimpleCursorAdapter(this,
-                android.R.layout.simple_list_item_1, null, from, to, 0);
+        cursorAdapter = new CustomCursorAdapter(this, null , 0);
 
         ListView list = (ListView) findViewById(R.id.terms);
         list.setAdapter(cursorAdapter);
@@ -66,34 +65,13 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                 final Button endDate = (Button) promptView.findViewById(R.id.end_date);
                 final Calendar c1 = Calendar.getInstance();
                 final Calendar c2 = Calendar.getInstance();
+                endDate.setEnabled(false);
+
 
                 startDate.setOnClickListener(new View.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(View v) {
-
-                                                                Calendar cal = Calendar.getInstance();
-
-                                                                DatePickerDialog dpd = new DatePickerDialog(Terms.this,
-                                                                        new DatePickerDialog.OnDateSetListener() {
-
-                                                                            @Override
-                                                                            public void onDateSet(DatePicker view, int year,
-                                                                                                  int monthOfYear, int dayOfMonth) {
-                                                                                startDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
-                                                                                c1.set(year, monthOfYear, dayOfMonth);
-                                                                            }
-                                                                        }, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DATE));
-                                                                dpd.show();
-
-
-                                                            }
-                                                        }
-
-                );
-
-                endDate.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View v) {
+
                                                      Calendar cal = Calendar.getInstance();
 
                                                      DatePickerDialog dpd = new DatePickerDialog(Terms.this,
@@ -102,15 +80,40 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                                                                  @Override
                                                                  public void onDateSet(DatePicker view, int year,
                                                                                        int monthOfYear, int dayOfMonth) {
-                                                                     endDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
-                                                                     c2.set(year, monthOfYear, dayOfMonth);
+                                                                     startDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
+                                                                     endDate.setEnabled(true);
+                                                                     c1.set(year, monthOfYear, dayOfMonth);
                                                                  }
-                                                             }, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DATE));
+                                                             }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+                                                     dpd.setTitle("Start of Term Date");
                                                      dpd.show();
-
-
                                                  }
-                                             }
+
+                                                }
+                );
+
+                endDate.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View v) {
+                                                   Calendar cal = Calendar.getInstance();
+
+                                                   DatePickerDialog dpd = new DatePickerDialog(Terms.this,
+                                                           new DatePickerDialog.OnDateSetListener() {
+
+                                                               @Override
+                                                               public void onDateSet(DatePicker view, int year,
+                                                                                     int monthOfYear, int dayOfMonth) {
+                                                                   endDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
+                                                                   c2.set(year, monthOfYear, dayOfMonth);
+                                                               }
+                                                           }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+                                                   dpd.setTitle("End of Term Date");
+                                                   DatePicker dp = dpd.getDatePicker();
+                                                   dp.setMinDate(c1.getTimeInMillis());
+                                                   dpd.show();
+
+                                               }
+                                           }
 
                 );
 
@@ -118,9 +121,9 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                         .setCancelable(false)
                         .
 
-                                setPositiveButton("Save Term",new DialogInterface.OnClickListener() {
+                                setPositiveButton("Save Term", new DialogInterface.OnClickListener() {
                                             @Override
-                                            public void onClick (DialogInterface dialog,int id){
+                                            public void onClick(DialogInterface dialog, int id) {
                                                 String name = termName.getText().toString();
 
                                                 if (name.isEmpty()) {
@@ -130,7 +133,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                                                     insertTerm(name, c1, c2);
                                                     dialog.dismiss();
                                                     refreshAdapter();
-                                                    Toast.makeText(Terms.this, " New BOOK added ! \n ", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(Terms.this, " New Term added ! \n ", Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         }
@@ -140,7 +143,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
 
                                 setNegativeButton("Cancel",
                                         new DialogInterface.OnClickListener() {
-                                            public void onClick (DialogInterface dialog,int id){
+                                            public void onClick(DialogInterface dialog, int id) {
                                                 dialog.cancel();
                                             }
                                         });
@@ -159,12 +162,14 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
     }
 
     private void insertTerm(String termName, Calendar c1, Calendar c2) {
+        SimpleDateFormat ft = new SimpleDateFormat("MM-dd-YYYY");
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.TERM_NAME, termName);
-        values.put(DBOpenHelper.TERM_START, c1.toString());
-        values.put(DBOpenHelper.TERM_END, c2.toString());
+        values.put(DBOpenHelper.TERM_START, ft.format(c1.getTime()));
+        values.put(DBOpenHelper.TERM_END, ft.format(c2.getTime()));
         Uri termsUri = getContentResolver().insert(TermsProvider.CONTENT_URI, values);
-        Log.d("TermActivity", "Inserted term " + termsUri.getLastPathSegment());
+
+        Log.d("TermActivity", "Inserted term " + (termsUri != null ? termsUri.getLastPathSegment() : null));
     }
 
     @Override
@@ -182,6 +187,5 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
     public void onLoaderReset(Loader<Cursor> loader) {
         cursorAdapter.swapCursor(null);
     }
-
 
 }
