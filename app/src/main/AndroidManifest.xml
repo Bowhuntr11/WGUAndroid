@@ -23,6 +23,12 @@
             android:name=".Terms"
             android:label="@string/title_activity_terms"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <provider
+            android:name=".TermsProvider"
+            android:authorities="com.example.wguandroid.termsprovider"
+            android:exported="false" />
+
     </application>
 
 </manifest>
