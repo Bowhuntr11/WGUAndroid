@@ -5,6 +5,7 @@ import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.DatePicker;
@@ -33,6 +35,7 @@ import java.util.Date;
 public class Terms extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
+    private static final int TERM_REQUEST_CODE = 1001;
     public CursorAdapter cursorAdapter;
 
     @Override
@@ -46,6 +49,16 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
 
         ListView list = (ListView) findViewById(R.id.terms);
         list.setAdapter(cursorAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(Terms.this, Courses.class);
+                Uri uri = Uri.parse(TermsProvider.CONTENT_URI + "/" + id);
+                intent.putExtra(TermsProvider.CONTENT_TERM_TYPE, uri);
+                startActivityForResult(intent, TERM_REQUEST_CODE);
+            }
+        });
 
         getLoaderManager().initLoader(0, null, this);
 
@@ -127,7 +140,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                                                 String name = termName.getText().toString();
 
                                                 if (name.isEmpty()) {
-                                                    Toast.makeText(Terms.this, "All information needs to be filled out!", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(Terms.this, "You need to name the Term!", Toast.LENGTH_LONG).show();
                                                     return;
                                                 } else {
                                                     insertTerm(name, c1, c2);
@@ -162,7 +175,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
     }
 
     private void insertTerm(String termName, Calendar c1, Calendar c2) {
-        SimpleDateFormat ft = new SimpleDateFormat("MM-dd-YYYY");
+        SimpleDateFormat ft = new SimpleDateFormat("MM-dd-yyyy");
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.TERM_NAME, termName);
         values.put(DBOpenHelper.TERM_START, ft.format(c1.getTime()));

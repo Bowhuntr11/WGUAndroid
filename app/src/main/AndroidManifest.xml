@@ -22,13 +22,21 @@
         <activity
             android:name=".Terms"
             android:label="@string/title_activity_terms"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name=".TermsProvider"
             android:authorities="com.example.wguandroid.termsprovider"
             android:exported="false" />
 
+        <activity
+            android:name=".Courses"
+            android:label="@string/title_activity_courses"
+            android:parentActivityName=".Terms">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.wguandroid.Terms" />
+        </activity>
     </application>
 
 </manifest>

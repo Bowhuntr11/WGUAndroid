@@ -20,6 +20,8 @@ public class TermsProvider extends ContentProvider {
     private static final int TERMS = 1;
     private static final int TERMS_ID = 2;
 
+    public static final String CONTENT_TERM_TYPE = "Term";
+
     private static final UriMatcher uriMatcher =
             new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -40,6 +42,11 @@ public class TermsProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+
+        if(uriMatcher.match(uri) == TERMS_ID) {
+            selection = DBOpenHelper.TERM_ID + "=" + uri.getLastPathSegment();
+        }
+
         return database.query(DBOpenHelper.TABLE_TERMS, DBOpenHelper.ALL_COLUMNS, selection, null, null, null,
                 DBOpenHelper.TERM_CREATED + " DESC");
     }

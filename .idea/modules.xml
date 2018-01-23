@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WGUAndroid.iml" filepath="$PROJECT_DIR$/WGUAndroid.iml" />
-      <module fileurl="file://C:\Users\bowhu\OneDrive\Documents\GitHub\WGUAndroid\WGUAndroid.iml" filepath="C:\Users\bowhu\OneDrive\Documents\GitHub\WGUAndroid\WGUAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\bowhu\OneDrive\Documents\GitHub\WGUAndroid\app\app.iml" filepath="C:\Users\bowhu\OneDrive\Documents\GitHub\WGUAndroid\app\app.iml" />
     </modules>
   </component>
 </project>
