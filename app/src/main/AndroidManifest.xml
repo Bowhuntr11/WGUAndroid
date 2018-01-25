@@ -29,6 +29,12 @@
             android:authorities="com.example.wguandroid.termsprovider"
             android:exported="false" />
 
+        <provider
+            android:name=".CoursesProvider"
+            android:authorities="com.example.wguandroid.coursesprovider"
+            android:exported="false" />
+
+
         <activity
             android:name=".Courses"
             android:label="@string/title_activity_courses"

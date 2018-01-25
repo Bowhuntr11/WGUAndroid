@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.wguandroid.Terms"
-    tools:showIn="@layout/activity_terms">
+    tools:context="com.example.wguandroid.Courses"
+    tools:showIn="@layout/activity_courses">
 
     <ListView
-        android:id="@+id/terms"
+        android:id="@+id/courses"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"

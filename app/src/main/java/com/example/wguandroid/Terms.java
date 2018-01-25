@@ -34,9 +34,8 @@ import java.util.Date;
 
 public class Terms extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-
-    private static final int TERM_REQUEST_CODE = 1001;
     public CursorAdapter cursorAdapter;
+    public static int TERM_ID = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +52,12 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(Terms.this, Courses.class);
                 Uri uri = Uri.parse(TermsProvider.CONTENT_URI + "/" + id);
-                intent.putExtra(TermsProvider.CONTENT_TERM_TYPE, uri);
-                startActivityForResult(intent, TERM_REQUEST_CODE);
+                Cursor row = (Cursor) parent.getItemAtPosition(position);
+                String _id = row.getString(row.getColumnIndexOrThrow("_id"));
+                Intent intent = new Intent(Terms.this, Courses.class);
+                intent.putExtra("ID",_id);
+                startActivityForResult(intent, TERM_ID);
             }
         });
 
