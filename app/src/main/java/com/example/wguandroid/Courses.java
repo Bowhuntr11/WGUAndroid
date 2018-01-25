@@ -35,6 +35,7 @@ import java.util.List;
 public class Courses extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>  {
 
     private String termFilter;
+    private String termName;
     public CursorAdapter cursorAdapter;
 
     @Override
@@ -46,6 +47,9 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
 
         Intent intent = getIntent();
         termFilter = intent.getStringExtra("ID");
+        termName = intent.getStringExtra("termName");
+
+        getSupportActionBar().setTitle(termName);
 
         cursorAdapter = new CustomCursorAdapter(this, null , 0, termFilter);
 
@@ -176,6 +180,13 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
         Uri termsUri = getContentResolver().insert(CoursesProvider.CONTENT_URI, values);
 
         Log.d("CourseActivity", "Inserted course " + (termsUri != null ? termsUri.getLastPathSegment() : null));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_delete, menu);
+        return true;
     }
 
     @Override

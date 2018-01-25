@@ -55,8 +55,10 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                 Uri uri = Uri.parse(TermsProvider.CONTENT_URI + "/" + id);
                 Cursor row = (Cursor) parent.getItemAtPosition(position);
                 String _id = row.getString(row.getColumnIndexOrThrow("_id"));
+                String termName = row.getString(row.getColumnIndex("termName"));
                 Intent intent = new Intent(Terms.this, Courses.class);
                 intent.putExtra("ID",_id);
+                intent.putExtra("termName", termName);
                 startActivityForResult(intent, TERM_ID);
             }
         });
