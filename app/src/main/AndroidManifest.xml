@@ -28,12 +28,14 @@
             android:name=".TermsProvider"
             android:authorities="com.example.wguandroid.termsprovider"
             android:exported="false" />
-
         <provider
             android:name=".CoursesProvider"
             android:authorities="com.example.wguandroid.coursesprovider"
             android:exported="false" />
-
+        <provider
+            android:name=".AssessmentsProvider"
+            android:authorities="com.example.wguandroid.assessmentsprovider"
+            android:exported="false" />
 
         <activity
             android:name=".Courses"
@@ -42,6 +44,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.wguandroid.Terms" />
+        </activity>
+        <activity
+            android:name=".Assessments"
+            android:label="@string/title_activity_assessments"
+            android:parentActivityName=".Courses">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.wguandroid.Courses" />
         </activity>
     </application>
 

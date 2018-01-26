@@ -52,7 +52,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Uri uri = Uri.parse(TermsProvider.CONTENT_URI + "/" + id);
+                Uri.parse(TermsProvider.CONTENT_URI + "/" + id);
                 Cursor row = (Cursor) parent.getItemAtPosition(position);
                 String _id = row.getString(row.getColumnIndexOrThrow("_id"));
                 String termName = row.getString(row.getColumnIndex("termName"));

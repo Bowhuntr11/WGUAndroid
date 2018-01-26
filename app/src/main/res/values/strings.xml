@@ -14,4 +14,25 @@
     <string name="title_activity_courses">Courses</string>
     <string name="add_course_information">Add Course Information</string>
     <string name="delete">Delete</string>
+    <string name="title_activity_assessments">Assessments</string>
+    <string name="add_assessment_information">Add assessment Information</string>
+    <string name="goal_date">Goal Date</string>
+    <string name="notes">Notes</string>
+    <string name="course_name">Course Name:</string>
+    <string name="mentor_number">Mentor Number:</string>
+    <string name="mentor_email">Mentor Email:</string>
+    <string name="mentor_name">Mentor Name:</string>
+    <string name="term_name">Term name</string>
+    <string name="course_mentor">Course Mentor: </string>
+    <string name="emptyNumber">##########</string>
+    <string name="emptyEmail">noemail@default.com</string>
+    <string name="not_assigned">Not assigned</string>
+    <string name="course_progress">Course Progress:</string>
+    <string name="assessments">Assessments</string>
+    <string-array name="progress_array">
+        <item>In Progress</item>
+        <item>Completed</item>
+        <item>Dropped</item>
+        <item>Plan to take</item>
+    </string-array>
 </resources>

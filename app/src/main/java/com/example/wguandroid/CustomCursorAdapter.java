@@ -15,16 +15,9 @@ import android.widget.TextView;
 public class CustomCursorAdapter extends CursorAdapter {
     private LayoutInflater mInflater;
     private Context contextType;
-    private String termId;
 
     public CustomCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public CustomCursorAdapter(Context context, Cursor c, int flags, String id) {
-        super(context, c, flags);
-        this.termId = id;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -33,8 +26,11 @@ public class CustomCursorAdapter extends CursorAdapter {
         this.contextType = context;
         if (this.contextType instanceof Terms) {
             return mInflater.inflate(R.layout.termlist, parent, false);
-        } else {
+        } else if (this.contextType instanceof Courses) {
             return mInflater.inflate(R.layout.courselist, parent, false);
+        } else {
+            Log.d("CCA", "Assessment Context");
+            return mInflater.inflate(R.layout.assessmentlist, parent, false);
         }
     }
 
@@ -48,15 +44,19 @@ public class CustomCursorAdapter extends CursorAdapter {
             TextView termDate = (TextView) view.findViewById(R.id.term_date);
             termDate.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_START)) + " to " +
                     cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_END)));
-        } else {
-            Log.d("TermID Courses", termId);
-
+        } else if ( this.contextType instanceof Courses){
             TextView content = (TextView) view.findViewById(R.id.course_text);
             content.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_NAME)));
             TextView courseDate = (TextView) view.findViewById(R.id.course_date);
             courseDate.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_START)) + " to " +
                     cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_END)));
-            Log.d("bindView", "This is an instance of Courses");
+        } else {
+            Log.d("CCA", "Assessment Context");
+            TextView content = (TextView) view.findViewById(R.id.assessment_text);
+            content.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.ASSESSMENT_NAME)));
+            TextView courseDate = (TextView) view.findViewById(R.id.assessment_date);
+            courseDate.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.ASSESSMENT_DATE)));
+            Log.d("bindView", "This is an instance of Assessments");
         }
     }
 
