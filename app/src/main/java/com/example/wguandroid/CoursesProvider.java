@@ -20,7 +20,7 @@ public class CoursesProvider extends ContentProvider {
     private static final int COURSES = 1;
     private static final int COURSE_ID = 2;
 
-    public static final String CONTENT_COURSE_TYPE = "Courses";
+    public static final String CONTENT_COURSE_TYPE = "TermInfo";
 
     private static final UriMatcher uriMatcher =
             new UriMatcher(UriMatcher.NO_MATCH);

@@ -3,6 +3,7 @@ package com.example.wguandroid;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 public class DBOpenHelper extends SQLiteOpenHelper {
@@ -44,11 +45,9 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             {ASSESSMENT_ID, ASSESSMENT_NAME, ASSESSMENT_DATE, ASSESSMENT_CREATED, COURSE_KEY};
 
 
-
-
     //Constants for db name and version
-    private static final String TERMS_DATABASE_NAME = "terms.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final String DATABASE_NAME = "wguDatabase.db";
+    private static final int DATABASE_VERSION = 1;
 
     //SQL to create table
     private static final String TERM_CREATE =
@@ -84,7 +83,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                     ")";
 
     public DBOpenHelper(Context context) {
-        super(context, TERMS_DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -92,6 +91,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(TERM_CREATE);
         db.execSQL(COURSE_CREATE);
         db.execSQL(ASSESSMENT_CREATE);
+        Log.d(LOG, "Database created");
     }
 
     @Override
@@ -100,5 +100,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ASSESSMENTS);
         onCreate(db);
+        Log.d(LOG, "Database erased for Upgrade");
     }
 }

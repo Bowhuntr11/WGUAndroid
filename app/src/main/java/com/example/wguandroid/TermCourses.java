@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,7 +32,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Courses extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TermCourses extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private String termFilter;
     private String termName;
@@ -39,13 +40,11 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
     private ArrayAdapter<CharSequence> spinnerAdapter;
     private static final int COURSE_ID = 1001;
     String value;
-    private boolean dateSelected = false;
-    private boolean dateSelected2 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_courses);
+        setContentView(R.layout.activity_term_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -72,7 +71,7 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
                 String mentorNumber = row.getString(row.getColumnIndex("mentorNumber"));
                 String mentorEmail = row.getString(row.getColumnIndex("mentorEmail"));
                 String courseProgress = row.getString(row.getColumnIndex("courseStatus"));
-                Intent intent = new Intent(Courses.this, Assessments.class);
+                Intent intent = new Intent(TermCourses.this, CourseInfo.class);
                 intent.putExtra("ID", _id);
                 intent.putExtra("courseName", courseName);
                 intent.putExtra("courseStart", courseStart);
@@ -91,10 +90,10 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater layoutInflater = LayoutInflater.from(Courses.this);
+                LayoutInflater layoutInflater = LayoutInflater.from(TermCourses.this);
                 View promptView = layoutInflater.inflate(R.layout.add_course_dialog, null);
 
-                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Courses.this);
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TermCourses.this);
 
                 alertDialogBuilder.setView(promptView);
 
@@ -116,7 +115,7 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
                 startDate.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View v) {
-                                                     DatePickerDialog dpd = new DatePickerDialog(Courses.this,
+                                                     DatePickerDialog dpd = new DatePickerDialog(TermCourses.this,
                                                              new DatePickerDialog.OnDateSetListener() {
 
                                                                  @Override
@@ -137,7 +136,7 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
                 endDate.setOnClickListener(new View.OnClickListener() {
                                                @Override
                                                public void onClick(View v) {
-                                                   DatePickerDialog dpd = new DatePickerDialog(Courses.this,
+                                                   DatePickerDialog dpd = new DatePickerDialog(TermCourses.this,
                                                            new DatePickerDialog.OnDateSetListener() {
 
                                                                @Override
@@ -193,17 +192,17 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
                     String mName = mentorName.getText().toString();
                     String mNumber = mentorNumber.getText().toString();
                     String mEmail = mentorEmail.getText().toString();
-                    Log.d("Courses Dialog", String.valueOf(c1.get(Calendar.YEAR)));
-                    Log.d("Courses Dialog", String.valueOf(c2.get(Calendar.YEAR)));
+                    Log.d("TermInfo Dialog", String.valueOf(c1.get(Calendar.YEAR)));
+                    Log.d("TermInfo Dialog", String.valueOf(c2.get(Calendar.YEAR)));
 
                         if (cName.isEmpty() || cProgress.isEmpty() || mName.isEmpty() || mNumber.isEmpty() || mEmail.isEmpty()
                                                         || c1.get(Calendar.YEAR) <= 1900 || c2.get(Calendar.YEAR) <= 1900) {
-                            Toast.makeText(Courses.this, "You didn't fill out all the information, or the date is too far in the past", Toast.LENGTH_LONG).show();
+                            Toast.makeText(TermCourses.this, "You didn't fill out all the information, or the date is too far in the past", Toast.LENGTH_LONG).show();
                         } else {
                             insertCourse(cName, cProgress, c1, c2, mName, mNumber, mEmail);
                             alertD.dismiss();
                             refreshAdapter();
-                            Toast.makeText(Courses.this, " New Course added ! ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(TermCourses.this, " New Course added ! ", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -211,7 +210,7 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
 
                 // Applying adapter to Spinner on Course Dialog
                 final Spinner spinner = (Spinner) alertD.findViewById(R.id.progressSpinner);
-                spinnerAdapter = ArrayAdapter.createFromResource(Courses.this,
+                spinnerAdapter = ArrayAdapter.createFromResource(TermCourses.this,
                         R.array.progress_array, android.R.layout.simple_spinner_item);
                 spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(spinnerAdapter);
@@ -254,13 +253,6 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_courses, menu);
-        return true;
-    }
-
-    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection = DBOpenHelper.TERM_KEY + "=";
         String[] selectionArgs = {
@@ -284,5 +276,60 @@ public class Courses extends AppCompatActivity implements LoaderManager.LoaderCa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         cursorAdapter.swapCursor(null);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_courses, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_delete) {
+            DialogInterface.OnClickListener dialogClickListener =
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int button) {
+                            if (button == DialogInterface.BUTTON_POSITIVE) {
+                                //Insert Data management code here
+                                getContentResolver().delete(
+                                        TermsProvider.CONTENT_URI, "_id = " + termFilter, null
+                                );
+                                finish();
+                                Toast.makeText(TermCourses.this,
+                                        getString(R.string.term_deleted),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.are_you_sure_term))
+                    .setPositiveButton(getString(android.R.string.yes), dialogClickListener)
+                    .setNegativeButton(getString(android.R.string.no), dialogClickListener)
+                    .show();
+            return true;
+        }
+
+        if (id == R.id.action_edit) {
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        refreshAdapter();
     }
 }

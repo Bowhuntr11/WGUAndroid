@@ -38,7 +38,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".Courses"
+            android:name=".TermInfo"
             android:label="@string/title_activity_courses"
             android:parentActivityName=".Terms">
             <meta-data
@@ -46,12 +46,12 @@
                 android:value="com.example.wguandroid.Terms" />
         </activity>
         <activity
-            android:name=".Assessments"
+            android:name=".CourseInfo"
             android:label="@string/title_activity_assessments"
-            android:parentActivityName=".Courses">
+            android:parentActivityName=".TermInfo">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.wguandroid.Courses" />
+                android:value="com.example.wguandroid.TermInfo" />
         </activity>
     </application>
 

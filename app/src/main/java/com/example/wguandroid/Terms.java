@@ -11,11 +11,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +23,10 @@ import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Terms extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -56,7 +52,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                 Cursor row = (Cursor) parent.getItemAtPosition(position);
                 String _id = row.getString(row.getColumnIndexOrThrow("_id"));
                 String termName = row.getString(row.getColumnIndex("termName"));
-                Intent intent = new Intent(Terms.this, Courses.class);
+                Intent intent = new Intent(Terms.this, TermInfo.class);
                 intent.putExtra("ID",_id);
                 intent.putExtra("termName", termName);
                 startActivityForResult(intent, TERM_ID);
@@ -202,6 +198,13 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         cursorAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        refreshAdapter();
     }
 
 }

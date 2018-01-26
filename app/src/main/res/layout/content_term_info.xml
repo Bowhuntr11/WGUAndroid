@@ -7,11 +7,23 @@
     android:layout_marginTop="?attr/actionBarSize"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.wguandroid.Terms"
-    tools:showIn="@layout/activity_terms">
+    tools:context="com.example.wguandroid.TermInfo"
+    tools:showIn="@layout/activity_term_info">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/courses"
+        android:textSize="25sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
 
     <ListView
-        android:id="@+id/terms"
+        android:id="@+id/courses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
