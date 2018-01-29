@@ -23,7 +23,7 @@ public class CustomCursorAdapter extends CursorAdapter {
         this.contextType = context;
         if (this.contextType instanceof Terms) {
             return mInflater.inflate(R.layout.termlist, parent, false);
-        } else if (this.contextType instanceof TermInfo) {
+        } else if (this.contextType instanceof TermCourses) {
             return mInflater.inflate(R.layout.courselist, parent, false);
         } else {
             return mInflater.inflate(R.layout.assessmentlist, parent, false);
@@ -40,7 +40,7 @@ public class CustomCursorAdapter extends CursorAdapter {
             TextView termDate = (TextView) view.findViewById(R.id.term_date);
             termDate.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_START)) + " to " +
                     cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_END)));
-        } else if ( this.contextType instanceof TermInfo){
+        } else if ( this.contextType instanceof TermCourses){
             TextView content = (TextView) view.findViewById(R.id.course_text);
             content.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_NAME)));
             TextView courseDate = (TextView) view.findViewById(R.id.course_date);

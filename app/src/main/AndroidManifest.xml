@@ -48,11 +48,36 @@
         <activity
             android:name=".CourseInfo"
             android:label="@string/title_activity_assessments"
+            android:parentActivityName=".TermCourses">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.wguandroid.TermCourses" />
+        </activity>
+        <activity
+            android:name=".TermCourses"
+            android:label="@string/termCourses"
             android:parentActivityName=".TermInfo">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.wguandroid.TermInfo" />
         </activity>
+        <activity
+            android:name=".CourseAssessments"
+            android:label="@string/courseAssessments"
+            android:parentActivityName=".CourseInfo">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.wguandroid.CourseInfo" />
+        </activity>
+        <activity
+            android:name=".AssessmentInfo"
+            android:label="@string/assessment_info"
+            android:parentActivityName=".CourseAssessments">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.wguandroid.CourseAssessments" />
+        </activity>
+
     </application>
 
 </manifest>

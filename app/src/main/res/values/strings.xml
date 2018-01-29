@@ -39,6 +39,15 @@
     <string name="share">Share</string>
     <string name="edit">Edit</string>
     <string name="courses">Courses</string>
+    <string name="edit_term">Edit Term</string>
+    <string name="termCourses">TermCourses</string>
+    <string name="delete_term">Delete Term</string>
+    <string name="courseAssessments">CourseAssessments</string>
+    <string name="edit_course">Edit Course</string>
+    <string name="delete_course">Delete Course</string>
+    <string name="edit_assessment">Edit Assessment</string>
+    <string name="delete_assessment">Delete Assessment</string>
+    <string name="assessment_info">Assessment Info</string>
     <string-array name="progress_array">
         <item>In Progress</item>
         <item>Completed</item>

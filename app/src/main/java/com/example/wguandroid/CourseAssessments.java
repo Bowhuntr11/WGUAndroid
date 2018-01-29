@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.DatePicker;
@@ -36,51 +37,42 @@ public class CourseAssessments extends AppCompatActivity implements LoaderManage
 
     private String courseFilter;
     public CursorAdapter cursorAdapter;
-    private SharedPreferences shaPref;
-    private SharedPreferences.Editor shaPrefEdit;
-    private String note;
+    public static int ASSESSMENT_ID = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_info);
+        setContentView(R.layout.activity_course_assessments);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
         courseFilter = intent.getStringExtra("ID");
         String courseName = intent.getStringExtra("courseName");
-        String courseStart = intent.getStringExtra("courseStart");
-        String courseEnd = intent.getStringExtra("courseEnd");
-        String courseMentor = intent.getStringExtra("courseMentor");
-        String mentorNumber = intent.getStringExtra("mentorNumber");
-        String mentorEmail = intent.getStringExtra("mentorEmail");
-        String courseProgress = intent.getStringExtra("courseProgress");
 
         getSupportActionBar().setTitle(courseName);
-
-        TextView cStart = (TextView) findViewById(R.id.start_date_course);
-        cStart.setText(courseStart);
-        TextView cEnd = (TextView) findViewById(R.id.end_date_course);
-        cEnd.setText(courseEnd);
-        TextView cMentor = (TextView) findViewById(R.id.mentor_name_course);
-        cMentor.setText(courseMentor);
-        TextView mNumber = (TextView) findViewById(R.id.mentor_number_course);
-        mNumber.setText(mentorNumber);
-        TextView mEmail = (TextView) findViewById(R.id.mentor_email_course);
-        mEmail.setText(mentorEmail);
-        TextView cProgress = (TextView) findViewById(R.id.progress_course);
-        cProgress.setText(courseProgress);
 
         cursorAdapter = new CustomCursorAdapter(this, null, 0);
         ListView list = (ListView) findViewById(R.id.assessmentsListView);
         list.setAdapter(cursorAdapter);
 
-        getLoaderManager().initLoader(0, null, this);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Uri.parse(AssessmentsProvider.CONTENT_URI + "/" + id);
+                Cursor row = (Cursor) parent.getItemAtPosition(position);
+                String _id = row.getString(row.getColumnIndexOrThrow("_id"));
+                String assessmentName = row.getString(row.getColumnIndex("assessmentName"));
+                String assessmentDate = row.getString(row.getColumnIndex("assessmentDate"));
+                Intent intent = new Intent(CourseAssessments.this, AssessmentInfo.class);
+                intent.putExtra("ID", _id);
+                intent.putExtra("assesmentName", assessmentName);
+                intent.putExtra("assessmentDate", assessmentDate);
+                startActivityForResult(intent, ASSESSMENT_ID);
+            }
+        });
 
-        shaPref = PreferenceManager.getDefaultSharedPreferences(this);
-        shaPrefEdit = shaPref.edit();
-        note = shaPref.getString(courseFilter, "");
+        getLoaderManager().initLoader(0, null, this);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -207,121 +199,6 @@ public class CourseAssessments extends AppCompatActivity implements LoaderManage
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         cursorAdapter.swapCursor(null);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_assessment, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_notes) {
-            LayoutInflater layoutInflater = LayoutInflater.from(CourseAssessments.this);
-            View promptView = layoutInflater.inflate(R.layout.note_dialog, null);
-            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CourseAssessments.this);
-            alertDialogBuilder.setView(promptView);
-            alertDialogBuilder
-                    .setCancelable(false)
-                    .
-                            setPositiveButton("Save Note", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                        }
-                                    }
-
-                            )
-                    .
-                            setNegativeButton("Cancel",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-
-
-
-            // create an alert dialog
-            final AlertDialog alertD = alertDialogBuilder.create();
-
-            alertD.show();
-
-            final EditText notesTaken = (EditText) alertD.findViewById(R.id.notes_added);
-            notesTaken.setText(note);
-            notesTaken.setSelection(notesTaken.getText().length());
-
-            // Override of onClick so that when user selects Save button it checks to make sure fields are filled out
-            alertD.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    note = notesTaken.getText().toString();
-                    if (note.isEmpty()) {
-                        Toast.makeText(CourseAssessments.this, "You didn't put in a note!", Toast.LENGTH_LONG).show();
-                    } else {
-                        shaPrefEdit.putString(courseFilter, note);
-                        shaPrefEdit.commit();
-                        alertD.dismiss();
-                        refreshAdapter();
-                        Toast.makeText(CourseAssessments.this, " New Note added ! ", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-
-            Button share = (Button) alertD.findViewById(R.id.share_btn);
-            share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    note = notesTaken.getText().toString();
-                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                    sharingIntent.setType("text/plain");
-                    String shareBody = note;
-                    String shareSub = "Sharing note!";
-                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
-                    sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-                    startActivity(Intent.createChooser(sharingIntent, "Share using"));
-                }
-            });
-        }
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_delete) {
-            DialogInterface.OnClickListener dialogClickListener =
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int button) {
-                            if (button == DialogInterface.BUTTON_POSITIVE) {
-                                //Insert Data management code here
-                                getContentResolver().delete(
-                                        CoursesProvider.CONTENT_URI, "_id = " + courseFilter, null
-                                );
-                                finish();
-                                Toast.makeText(CourseAssessments.this,
-                                        getString(R.string.course_deleted),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getString(R.string.are_you_sure_assessment))
-                    .setPositiveButton(getString(android.R.string.yes), dialogClickListener)
-                    .setNegativeButton(getString(android.R.string.no), dialogClickListener)
-                    .show();
-            return true;
-        }
-
-        if (id == R.id.action_edit) {
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

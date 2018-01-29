@@ -8,8 +8,8 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.wguandroid.TermInfo"
-    tools:showIn="@layout/activity_term_info">
+    tools:context="com.example.wguandroid.AssessmentInfo"
+    tools:showIn="@layout/activity_assessment_info">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,38 +20,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/start_date"
+            android:text="@string/goal_date"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:paddingBottom="10dp"
-            android:textSize="25sp" />
+            android:textSize="25sp" />S
 
         <TextView
-            android:id="@+id/start_date_term_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/not_assigned"
-            android:textSize="25sp" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/end_date"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:paddingBottom="10dp"
-            android:textSize="25sp" />
-
-        <TextView
-            android:id="@+id/end_date_term_info"
+            android:id="@+id/date_assessment_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -66,22 +42,16 @@
         android:gravity="center_horizontal">
 
         <Button
-            android:id="@+id/coursesBtn"
+            android:id="@+id/editAssessmentBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/courses" />
+            android:text="@string/edit_assessment" />
 
         <Button
-            android:id="@+id/editTermBtn"
+            android:id="@+id/deleteAssessmentBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit_term" />
-
-        <Button
-            android:id="@+id/deleteTermBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delete_term"/>
+            android:text="@string/delete_assessment"/>
 
     </LinearLayout>
 

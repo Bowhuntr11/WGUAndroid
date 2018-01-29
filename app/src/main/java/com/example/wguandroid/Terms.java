@@ -52,9 +52,13 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                 Cursor row = (Cursor) parent.getItemAtPosition(position);
                 String _id = row.getString(row.getColumnIndexOrThrow("_id"));
                 String termName = row.getString(row.getColumnIndex("termName"));
+                String startDate = row.getString(row.getColumnIndex("termStart"));
+                String endDate = row.getString(row.getColumnIndex("termEnd"));
                 Intent intent = new Intent(Terms.this, TermInfo.class);
                 intent.putExtra("ID",_id);
                 intent.putExtra("termName", termName);
+                intent.putExtra("startDate", startDate);
+                intent.putExtra("endDate", endDate);
                 startActivityForResult(intent, TERM_ID);
             }
         });

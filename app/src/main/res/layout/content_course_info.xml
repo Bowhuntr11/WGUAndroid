@@ -5,17 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginTop="?attr/actionBarSize"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.wguandroid.CourseInfo"
     tools:showIn="@layout/activity_course_info">
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_weight=".1"
-        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -161,35 +154,31 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="5dp"
-            android:gravity="center_horizontal|bottom"
-            android:text="@string/assessments"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp" />
-
-
-    </LinearLayout>
-
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_weight=".1"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:gravity="center_horizontal">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black"/>
+    <Button
+        android:id="@+id/assessmentsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/assessments" />
 
-        <ListView
-            android:id="@+id/assessmentsListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/editCourseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_course" />
+
+    <Button
+        android:id="@+id/deleteCourseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_course"/>
+
     </LinearLayout>
-
 
 </LinearLayout>
