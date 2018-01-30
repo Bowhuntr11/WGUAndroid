@@ -48,6 +48,13 @@
     <string name="edit_assessment">Edit Assessment</string>
     <string name="delete_assessment">Delete Assessment</string>
     <string name="assessment_info">Assessment Info</string>
+    <string name="edit_term_information">Edit Term Information</string>
+    <string name="edit_course_information">Edit Course Information</string>
+    <string name="cant_delete_term">Can\'t delete Term until courses are deleted!</string>
+    <string name="set_alarm">Set Alarm</string>
+    <string name="start_date_alarm">Start Date Alarm</string>
+    <string name="alarm_on_off">Alarm On/Off</string>
+    <string name="end_date_alarm">End Date Alarm</string>
     <string-array name="progress_array">
         <item>In Progress</item>
         <item>Completed</item>

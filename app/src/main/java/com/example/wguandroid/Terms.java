@@ -40,7 +40,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        cursorAdapter = new CustomCursorAdapter(this, null , 0);
+        cursorAdapter = new CustomCursorAdapter(this, null, 0);
 
         ListView list = (ListView) findViewById(R.id.terms);
         list.setAdapter(cursorAdapter);
@@ -55,7 +55,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                 String startDate = row.getString(row.getColumnIndex("termStart"));
                 String endDate = row.getString(row.getColumnIndex("termEnd"));
                 Intent intent = new Intent(Terms.this, TermInfo.class);
-                intent.putExtra("ID",_id);
+                intent.putExtra("ID", _id);
                 intent.putExtra("termName", termName);
                 intent.putExtra("startDate", startDate);
                 intent.putExtra("endDate", endDate);
@@ -80,16 +80,16 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                 final Button startDate = (Button) promptView.findViewById(R.id.start_date);
                 final Button endDate = (Button) promptView.findViewById(R.id.end_date);
                 final Calendar c1 = Calendar.getInstance();
+                c1.set(1900, 1, 1);
                 final Calendar c2 = Calendar.getInstance();
+                c2.set(1900, 1, 1);
+                final Calendar c3 = Calendar.getInstance();
                 endDate.setEnabled(false);
 
 
                 startDate.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View v) {
-
-                                                     Calendar cal = Calendar.getInstance();
-
                                                      DatePickerDialog dpd = new DatePickerDialog(Terms.this,
                                                              new DatePickerDialog.OnDateSetListener() {
 
@@ -100,19 +100,17 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                                                                      endDate.setEnabled(true);
                                                                      c1.set(year, monthOfYear, dayOfMonth);
                                                                  }
-                                                             }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+                                                             }, c3.get(Calendar.YEAR), c3.get(Calendar.MONTH), c3.get(Calendar.DATE));
                                                      dpd.setTitle("Start of Term Date");
                                                      dpd.show();
                                                  }
 
-                                                }
+                                             }
                 );
 
                 endDate.setOnClickListener(new View.OnClickListener() {
                                                @Override
                                                public void onClick(View v) {
-                                                   Calendar cal = Calendar.getInstance();
-
                                                    DatePickerDialog dpd = new DatePickerDialog(Terms.this,
                                                            new DatePickerDialog.OnDateSetListener() {
 
@@ -122,7 +120,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                                                                    endDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
                                                                    c2.set(year, monthOfYear, dayOfMonth);
                                                                }
-                                                           }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+                                                           }, c3.get(Calendar.YEAR), c3.get(Calendar.MONTH), c3.get(Calendar.DATE));
                                                    dpd.setTitle("End of Term Date");
                                                    DatePicker dp = dpd.getDatePicker();
                                                    dp.setMinDate(c1.getTimeInMillis());
@@ -140,17 +138,6 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                                 setPositiveButton("Save Term", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int id) {
-                                                String name = termName.getText().toString();
-
-                                                if (name.isEmpty()) {
-                                                    Toast.makeText(Terms.this, "You need to name the Term!", Toast.LENGTH_LONG).show();
-                                                    return;
-                                                } else {
-                                                    insertTerm(name, c1, c2);
-                                                    dialog.dismiss();
-                                                    refreshAdapter();
-                                                    Toast.makeText(Terms.this, " New Term added ! \n ", Toast.LENGTH_LONG).show();
-                                                }
                                             }
                                         }
 
@@ -165,8 +152,26 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
                                         });
 
                 // create an alert dialog
-                AlertDialog alertD = alertDialogBuilder.create();
+                final AlertDialog alertD = alertDialogBuilder.create();
                 alertD.show();
+
+                // Override of onClick so that when user selects Save button it checks to make sure fields are filled out
+                alertD.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = termName.getText().toString();
+
+                        if (name.isEmpty() || c1.get(Calendar.YEAR) <= 1900 || c2.get(Calendar.YEAR) <= 1900) {
+                            Toast.makeText(Terms.this, "You need to name the Term or give it dates!", Toast.LENGTH_LONG).show();
+                            return;
+                        } else {
+                            insertTerm(name, c1, c2);
+                            alertD.dismiss();
+                            refreshAdapter();
+                            Toast.makeText(Terms.this, "New Term added!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
 
             }
@@ -205,8 +210,7 @@ public class Terms extends AppCompatActivity implements LoaderManager.LoaderCall
     }
 
     @Override
-    public void onResume()
-    {  // After a pause OR at startup
+    public void onResume() {  // After a pause OR at startup
         super.onResume();
         refreshAdapter();
     }

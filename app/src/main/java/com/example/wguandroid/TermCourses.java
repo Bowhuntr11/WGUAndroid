@@ -16,8 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -80,6 +78,7 @@ public class TermCourses extends AppCompatActivity implements LoaderManager.Load
                 intent.putExtra("mentorNumber", mentorNumber);
                 intent.putExtra("mentorEmail", mentorEmail);
                 intent.putExtra("courseProgress", courseProgress);
+                intent.putExtra("termFilter", termFilter);
                 startActivityForResult(intent, COURSE_ID);
             }
         });
@@ -126,7 +125,7 @@ public class TermCourses extends AppCompatActivity implements LoaderManager.Load
                                                                      c1.set(year, monthOfYear, dayOfMonth);
                                                                  }
                                                              }, c3.get(Calendar.YEAR), c3.get(Calendar.MONTH), c3.get(Calendar.DATE));
-                                                     dpd.setTitle("Start of Term Date");
+                                                     dpd.setTitle("Start of Course Date");
                                                      dpd.show();
                                                  }
 
@@ -146,7 +145,7 @@ public class TermCourses extends AppCompatActivity implements LoaderManager.Load
                                                                    c2.set(year, monthOfYear, dayOfMonth);
                                                                }
                                                            }, c3.get(Calendar.YEAR), c3.get(Calendar.MONTH), c3.get(Calendar.DATE));
-                                                   dpd.setTitle("End of Term Date");
+                                                   dpd.setTitle("End of Course Date");
                                                    DatePicker dp = dpd.getDatePicker();
                                                    dp.setMinDate(c1.getTimeInMillis());
                                                    dpd.show();
@@ -183,20 +182,19 @@ public class TermCourses extends AppCompatActivity implements LoaderManager.Load
                 alertD.show();
 
                 // Override of onClick so that when user selects Save button it checks to make sure fields are filled out
-                alertD.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
-                {
+                alertD.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    String cName = courseName.getText().toString();
-                    String cProgress = value;
-                    String mName = mentorName.getText().toString();
-                    String mNumber = mentorNumber.getText().toString();
-                    String mEmail = mentorEmail.getText().toString();
-                    Log.d("TermInfo Dialog", String.valueOf(c1.get(Calendar.YEAR)));
-                    Log.d("TermInfo Dialog", String.valueOf(c2.get(Calendar.YEAR)));
+                        String cName = courseName.getText().toString();
+                        String cProgress = value;
+                        String mName = mentorName.getText().toString();
+                        String mNumber = mentorNumber.getText().toString();
+                        String mEmail = mentorEmail.getText().toString();
+                        Log.d("TermInfo Dialog", String.valueOf(c1.get(Calendar.YEAR)));
+                        Log.d("TermInfo Dialog", String.valueOf(c2.get(Calendar.YEAR)));
 
                         if (cName.isEmpty() || cProgress.isEmpty() || mName.isEmpty() || mNumber.isEmpty() || mEmail.isEmpty()
-                                                        || c1.get(Calendar.YEAR) <= 1900 || c2.get(Calendar.YEAR) <= 1900) {
+                                || c1.get(Calendar.YEAR) <= 1900 || c2.get(Calendar.YEAR) <= 1900) {
                             Toast.makeText(TermCourses.this, "You didn't fill out all the information, or the date is too far in the past", Toast.LENGTH_LONG).show();
                         } else {
                             insertCourse(cName, cProgress, c1, c2, mName, mNumber, mEmail);
@@ -280,8 +278,7 @@ public class TermCourses extends AppCompatActivity implements LoaderManager.Load
 
 
     @Override
-    public void onResume()
-    {  // After a pause OR at startup
+    public void onResume() {  // After a pause OR at startup
         super.onResume();
         refreshAdapter();
     }

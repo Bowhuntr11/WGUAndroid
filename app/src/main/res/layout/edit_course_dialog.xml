@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:text="@string/add_course_information"
+                android:text="@string/edit_course_information"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -42,7 +42,7 @@
                     android:textSize="12sp" />
 
                 <EditText
-                    android:id="@+id/courseName"
+                    android:id="@+id/edit_courseName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -52,7 +52,7 @@
             </LinearLayout>
 
             <Spinner
-                android:id="@+id/progressSpinner"
+                android:id="@+id/edit_progressSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown" />
@@ -63,14 +63,14 @@
                 android:layout_gravity="center">
 
                 <Button
-                    android:id="@+id/start_date"
+                    android:id="@+id/edit_course_start_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/start_date"
                     tools:ignore="ButtonStyle" />
 
                 <Button
-                    android:id="@+id/end_date"
+                    android:id="@+id/edit_course_end_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/end_date"
@@ -92,7 +92,7 @@
                     android:textSize="12sp" />
 
                 <EditText
-                    android:id="@+id/mentorName"
+                    android:id="@+id/edit_mentorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="bottom"
@@ -116,7 +116,7 @@
                     android:textSize="12sp" />
 
                 <EditText
-                    android:id="@+id/mentorNumber"
+                    android:id="@+id/edit_mentorNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="bottom"
@@ -140,7 +140,7 @@
                     android:textSize="12sp" />
 
                 <EditText
-                    android:id="@+id/mentorEmail"
+                    android:id="@+id/edit_mentorEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="bottom"

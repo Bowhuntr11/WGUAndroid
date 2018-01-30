@@ -34,13 +34,13 @@ public class CustomCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         this.contextType = context;
-        if ( this.contextType instanceof Terms ) {
+        if (this.contextType instanceof Terms) {
             TextView content = (TextView) view.findViewById(R.id.term_text);
             content.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_NAME)));
             TextView termDate = (TextView) view.findViewById(R.id.term_date);
             termDate.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_START)) + " to " +
                     cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_END)));
-        } else if ( this.contextType instanceof TermCourses){
+        } else if (this.contextType instanceof TermCourses) {
             TextView content = (TextView) view.findViewById(R.id.course_text);
             content.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_NAME)));
             TextView courseDate = (TextView) view.findViewById(R.id.course_date);

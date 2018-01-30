@@ -6,8 +6,16 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.wguandroid.MainActivity"
+    android:layout_marginTop="?attr/actionBarSize"
     tools:showIn="@layout/activity_main"
     tools:ignore="ExtraText">
+
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wgu"
+        />
 
     <TextView
         android:id="@+id/WelcomeText"

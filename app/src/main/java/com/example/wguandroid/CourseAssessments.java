@@ -7,19 +7,15 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -27,7 +23,6 @@ import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -66,8 +61,9 @@ public class CourseAssessments extends AppCompatActivity implements LoaderManage
                 String assessmentDate = row.getString(row.getColumnIndex("assessmentDate"));
                 Intent intent = new Intent(CourseAssessments.this, AssessmentInfo.class);
                 intent.putExtra("ID", _id);
-                intent.putExtra("assesmentName", assessmentName);
+                intent.putExtra("assessmentName", assessmentName);
                 intent.putExtra("assessmentDate", assessmentDate);
+                intent.putExtra("courseFilter", courseFilter);
                 startActivityForResult(intent, ASSESSMENT_ID);
             }
         });
@@ -202,8 +198,7 @@ public class CourseAssessments extends AppCompatActivity implements LoaderManage
     }
 
     @Override
-    public void onResume()
-    {  // After a pause OR at startup
+    public void onResume() {  // After a pause OR at startup
         super.onResume();
         refreshAdapter();
     }
