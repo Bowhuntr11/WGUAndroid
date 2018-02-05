@@ -396,8 +396,6 @@ public class CourseInfo extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @TargetApi(Build.VERSION_CODES.M)
     public void onClickedStart(View view) {
         SharedPreferences shaPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = shaPref.edit();
@@ -434,7 +432,6 @@ public class CourseInfo extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     public void onClickedEnd(View view) {
         SharedPreferences shaPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = shaPref.edit();

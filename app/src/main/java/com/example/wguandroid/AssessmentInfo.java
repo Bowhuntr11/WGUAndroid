@@ -199,8 +199,6 @@ public class AssessmentInfo extends AppCompatActivity {
         Log.d("AssessmentActivity", "Updated assessments: " + String.valueOf(termsUri));
     }
 
-
-    @TargetApi(Build.VERSION_CODES.M)
     public void onClicked(View view) {
         SharedPreferences shaPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = shaPref.edit();

@@ -47,7 +47,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     //Constants for db name and version
     private static final String DATABASE_NAME = "wguDatabase.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     //SQL to create table
     private static final String TERM_CREATE =

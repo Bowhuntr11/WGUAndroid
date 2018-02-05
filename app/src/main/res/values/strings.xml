@@ -55,6 +55,7 @@
     <string name="start_date_alarm">Start Date Alarm</string>
     <string name="alarm_on_off">Alarm On/Off</string>
     <string name="end_date_alarm">End Date Alarm</string>
+    <string name="alarm">Alarm</string>
     <string-array name="progress_array">
         <item>In Progress</item>
         <item>Completed</item>

@@ -55,11 +55,18 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alarm"
+        android:layout_gravity="center"
+        android:paddingTop="25dp"/>
+
     <ToggleButton
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alarm On/Off"
+        android:text="@string/alarm_on_off"
         android:id="@+id/alarmToggle"
         android:onClick="onClicked" />
 
